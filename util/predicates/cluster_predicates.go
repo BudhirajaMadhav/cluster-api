@@ -20,9 +20,9 @@ package predicates
 import (
 	"github.com/go-logr/logr"
 	clusterv1 "sigs.k8s.io/cluster-api/api/v1beta1"
+	"sigs.k8s.io/controller-runtime/pkg/client"
 	"sigs.k8s.io/controller-runtime/pkg/event"
 	"sigs.k8s.io/controller-runtime/pkg/predicate"
-	"sigs.k8s.io/controller-runtime/pkg/client"
 )
 
 // ClusterCreateInfraReady returns a predicate that returns true for a create event when a cluster has Status.InfrastructureReady set as true
@@ -190,10 +190,10 @@ func ClusterUnpausedAndInfrastructureReady(logger logr.Logger) predicate.Funcs {
 	return Any(log, createPredicates, updatePredicates)
 }
 
-// ClusterIsManagedTopology returns a Predicate that returns true when cluster.Spec.Topology
+// ClusterIsTopologyManaged returns a Predicate that returns true when cluster.Spec.Topology
 // is NOT nil and false otherwise.
 func ClusterIsTopologyManaged(logger logr.Logger) predicate.Funcs {
-	return predicate.NewPredicateFuncs(func(object client.Object) bool{
+	return predicate.NewPredicateFuncs(func(object client.Object) bool {
 		log := logger.WithValues("predicate", "ClusterIsManagedTopology", "eventType", "update")
 		cluster, ok := object.(*clusterv1.Cluster)
 		if !ok {
