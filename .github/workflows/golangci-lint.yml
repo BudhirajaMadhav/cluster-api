@@ -4,6 +4,7 @@ on:
     types: [opened, edited, synchronize, reopened]
     branches:
       - main
+  workflow_dispatch: 
 jobs:
   golangci:
     name: lint
